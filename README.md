@@ -1,0 +1,1 @@
+# bizerba-galg-vision-api-demo
