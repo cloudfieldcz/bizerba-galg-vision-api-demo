@@ -4,7 +4,7 @@ from flask import Blueprint, Response,make_response
 
 predict_blueprint = Blueprint('predict_blueprint', __name__)
 
-@predict_blueprint.route("/api/predict", methods=['GET'])
+@predict_blueprint.route("/api/predict", methods=['GET', 'POST'])
 def predict():
     try:
         logging.info("Request Predict received")
