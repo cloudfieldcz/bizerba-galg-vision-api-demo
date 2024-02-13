@@ -1,6 +1,6 @@
 import logging
 
-from flask import Blueprint,  make_response
+from flask import Blueprint, make_response
 
 transaction_blueprint = Blueprint('transaction_blueprint', __name__)
 
