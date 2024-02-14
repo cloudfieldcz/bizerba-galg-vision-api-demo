@@ -2,10 +2,11 @@ import json
 
 import requests
 
-url = "http://localhost:10003//api/predict"
+url = "http://localhost:10003/api/predict"
 
 image_path = "apple.jpg"
 
+# Open image file, rb - read binary
 with open(image_path, "rb") as image_file:
     image_data = image_file.read()
 
