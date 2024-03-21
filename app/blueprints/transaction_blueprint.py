@@ -8,6 +8,19 @@ transaction_blueprint = Blueprint('transaction_blueprint', __name__)
 
 @transaction_blueprint.route("/api/transaction_add", methods=['GET', 'POST'])
 def transaction_add():
+    """
+     Get user details by ID
+     ---
+     parameters:
+       - name: user_id
+         in: path
+         type: integer
+         required: true
+         description: User ID
+     responses:
+       200:
+         description: User details retrieved successfully
+     """
     try:
         logging.info("Handling method transaction_add")
         message = {"state": "transaction data accepted"}
@@ -19,6 +32,63 @@ def transaction_add():
 
 @transaction_blueprint.route("/api/transaction_post", methods=['GET', 'POST'])
 def transaction_post():
+    """
+       Process JSON data
+       ---
+       tags:
+         - Data Processing
+       parameters:
+         - in: body
+           name: json_data
+           description: JSON data to process
+           required: true
+           schema:
+             type: object
+             properties:
+               sell_id:
+                 type: string
+               device_id:
+                 type: string
+               time:
+                 type: string
+                 format: yyyymmddhhmm
+               neural_version:
+                 type: string
+               success:
+                 type: boolean
+               sold_assortment:
+                 type: string
+               success_position:
+                 type: integer
+               position_1_percent:
+                 type: number
+               position_2_percent:
+                 type: number
+               position_3_percent:
+                 type: number
+               position_4_percent:
+                 type: number
+               position_5_percent:
+                 type: number
+               position_1_assortment:
+                 type: string
+               position_2_assortment:
+                 type: string
+               position_3_assortment:
+                 type: string
+               position_4_assortment:
+                 type: string
+               position_5_assortment:
+                 type: string
+               duration:
+                 type: integer
+       responses:
+         200:
+           description: Data processed successfully
+       """
+    # Your logic here
+
+
     try:
         logging.info("Handling method transaction_post")
         json_data = request.json

@@ -6,6 +6,21 @@ predict_blueprint = Blueprint('predict_blueprint', __name__)
 
 @predict_blueprint.route("/api/predict", methods=['GET', 'POST'])
 def predict():
+    """
+     Get user details by ID
+     ---
+     parameters:
+       - name: user_id
+         in: path
+         type: integer
+         required: true
+         description: User ID
+     responses:
+       200:
+         description: User details retrieved successfully
+     """
+
+
     try:
         logging.info("Request Predict received")
 

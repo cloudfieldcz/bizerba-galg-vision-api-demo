@@ -2,6 +2,8 @@ import logging
 import os
 
 from flask import Flask, send_from_directory
+from flasgger import Swagger
+
 from waitress import serve
 
 from app import configuration
@@ -26,4 +28,5 @@ def server(host: str = None, port: int = None):
     manager_app = flask_app()
     configuration.configure(manager_app)
     logging.info(f"Starting server on http://{host}:{port}")
+    swagger = Swagger(manager_app)
     serve(manager_app, port=port, threads=5)
