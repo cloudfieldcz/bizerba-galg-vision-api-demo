@@ -1,8 +1,11 @@
 import logging
 
-from flask import Blueprint, Response,make_response
+from flask import Blueprint, Response, make_response, request, jsonify
 
 predict_blueprint = Blueprint('predict_blueprint', __name__)
+
+ALLOWED_GROUP_PARAMS = ['fruit', 'vegetable', 'bakery']
+
 
 @predict_blueprint.route("/api/predict", methods=['GET', 'POST'])
 def predict():
@@ -20,10 +23,14 @@ def predict():
          description: User details retrieved successfully
      """
 
-
     try:
         logging.info("Request Predict received")
 
+        for header, value in request.headers.items():
+            logging.info(f"Received header: {header}: {value}")
+
+        # if group_param not in ALLOWED_GROUP_PARAMS:
+        #    return make_response({"error": "Invalid group_param. Allowed values: 'fruit', 'vegetable', 'bakery'"}, 400)
 
         predicted_data = {
             "items": [
@@ -44,6 +51,3 @@ def predict():
     except Exception as e:
         logging.error(f"Unknown error when handling predict. {e}")
         return Response(status=500)
-
-
-

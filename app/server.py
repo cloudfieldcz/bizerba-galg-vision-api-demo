@@ -10,6 +10,7 @@ from app import configuration
 from app.blueprints.predict_blueprint import predict_blueprint
 from app.blueprints.transaction_blueprint import transaction_blueprint
 
+
 def flask_app():
     app = Flask(__name__)
     app.secret_key = os.urandom(32)

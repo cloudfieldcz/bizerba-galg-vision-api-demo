@@ -49,36 +49,11 @@ def transaction_post():
                  type: string
                device_id:
                  type: string
+               suggestion_id:
+                 type: string
                time:
-                 type: string
-                 format: yyyymmddhhmm
-               neural_version:
-                 type: string
-               success:
-                 type: boolean
+                 type: datetime
                sold_assortment:
-                 type: string
-               success_position:
-                 type: integer
-               position_1_percent:
-                 type: number
-               position_2_percent:
-                 type: number
-               position_3_percent:
-                 type: number
-               position_4_percent:
-                 type: number
-               position_5_percent:
-                 type: number
-               position_1_assortment:
-                 type: string
-               position_2_assortment:
-                 type: string
-               position_3_assortment:
-                 type: string
-               position_4_assortment:
-                 type: string
-               position_5_assortment:
                  type: string
                duration:
                  type: integer
@@ -86,15 +61,12 @@ def transaction_post():
          200:
            description: Data processed successfully
        """
-    # Your logic here
-
 
     try:
         logging.info("Handling method transaction_post")
         json_data = request.json
 
-        required_parameters = ['sell_id', 'device_id', 'time', 'neural_version', 'success', 'sold_assortment', 'success_position','position_1_percent', 'position_2_percent', 'position_3_percent', 'position_4_percent', 'position_5_percent', 'position_1_assortment', 'position_2_assortment', 'position_3_assortment', 'position_4_assortment', 'position_5_assortment', 'duration']
-        decimal_parameters = ['position_1_percent', 'position_2_percent', 'position_3_percent', 'position_4_percent', 'position_5_percent']
+        required_parameters = ['sell_id', 'device_id', 'suggestion_id', 'time', 'sold_assortment', 'duration']
 
         # Check if all required parameters are present
         missing_parameters = [param for param in required_parameters if param not in json_data]
@@ -102,35 +74,12 @@ def transaction_post():
             error_message = {"error": f"Parameters {missing_parameters} are missing in the request."}
             return jsonify(error_message), 400
 
-        # Perform additional validation for 'time' parameter format
-        if not validate_time_format(json_data['time']):
-            error_message = {"error": "Invalid format for 'time' parameter. Expected format: yyyyMMddhhmm."}
-            return jsonify(error_message), 400
-
-        # Perform additional validation for 'success' parameter boolean value
-        success_value = json_data.get('success')
-        if not isinstance(success_value, bool):
-            error_message = {"error": "Invalid value for 'success' parameter. Expected a boolean (True/False)."}
-            return jsonify(error_message), 400
-
-        # Perform additional validation for 'success_position' parameter value
-        success_position_value = json_data.get('success_position')
-        valid_success_positions = [-1, 0, 1, 2, 3, 4, 5, 6, 7]
-        if success_position_value not in valid_success_positions:
-            error_message = {
-                "error": "Invalid value for 'success_position' parameter. Expected one of -1, 0, 1, 2, 3, 4, 5, 6, 7."}
-            return jsonify(error_message), 400
-
-        # Check decimal parameters with maximum of 2 decimal points
-        for param in decimal_parameters:
-            if param not in json_data:
-                error_message = {"error": f"Parameter '{param}' is missing in the request."}
-                return jsonify(error_message), 400
-
-            position_percent_value = json_data.get(param)
-            if not validate_decimal_value(position_percent_value):
-                error_message = {
-                    "error": f"Invalid value for '{param}' parameter. Expected a decimal value from 0 to 100 with 2 decimal places."}
+        # Validate and parse the 'time' parameter in ISO format
+        if 'time' in json_data:
+            try:
+                json_data['time'] = datetime.strptime(json_data['time'], '%Y%m%d%H%M').isoformat()
+            except ValueError:
+                error_message = {"error": "Invalid format for 'time' parameter. Expected format: yyyymmddhhmm."}
                 return jsonify(error_message), 400
 
         # If all validations pass, process the transaction
@@ -150,20 +99,3 @@ def validate_time_format(time_str):
     except ValueError:
         return False
 
-
-def validate_decimal_value(value):
-    try:
-        decimal_value = float(value)
-        if decimal_value < 0 or decimal_value > 100:
-            return False
-
-        # Check if the number has at most 2 decimal places
-        if decimal_value != int(decimal_value):
-            decimal_places = len(str(decimal_value).split('.')[-1])
-            if decimal_places > 2:
-                return False
-
-        return True
-
-    except (ValueError, TypeError):
-        return False

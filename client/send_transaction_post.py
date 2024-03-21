@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 import requests
 
@@ -8,24 +9,15 @@ headers = {
     "Content-Type": "application/json",  # Replace with the appropriate content type for your image file
 }
 
+# Get the current datetime in the desired format
+current_time = datetime.now().strftime('%Y%m%d%H%M')
+
 json_data = {
     "sell_id": "123456",
     "device_id": "abc123",
-    "time": "202402091200", # format yyyyMMddhhmm
-    "neural_version": "v1.0",
-    "success": True,  # udava zda byla vybrana polozka z nabidky OR, nebo jina
-    "sold_assortment": "apple_jonaprice",
-    "success_position": 1,
-    "position_1_percent": 25.5,
-    "position_2_percent": 5.0,
-    "position_3_percent": 07.25,
-    "position_4_percent": 0.99,
-    "position_5_percent": 0.25,  # validace na soucet procent not bigger than 1
-    "position_1_assortment": "Apple_jonaprice",
-    "position_2_assortment": "tomato_organic",
-    "position_3_assortment": "peach_organic",
-    "position_4_assortment": "pear",
-    "position_5_assortment": "grapefruit",
+    "suggestion_id": "123456",
+    "time": current_time,
+    "sold_assortment": "apple_jonaprice", # chodi PLU
     "duration": 60
 }
 
