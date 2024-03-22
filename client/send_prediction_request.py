@@ -1,10 +1,10 @@
 import json
 import requests
 
-url = "http://localhost:10003/api/predict"
-
 image_path = "apple.jpg"
 group_param = "fruit"  # fruit, vegetable, bakery
+
+url = "http://localhost:10003/api/v1/suggest/"+group_param
 
 # Open image file, rb - read binary
 with open(image_path, "rb") as image_file:
@@ -16,7 +16,6 @@ payload = {
 
 headers = {
     'Content-Type': 'image/jpeg',
-    'Group_param': group_param
 }
 
 response = requests.post(url, data=payload, headers=headers)
