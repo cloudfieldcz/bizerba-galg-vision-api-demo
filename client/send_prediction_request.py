@@ -4,7 +4,7 @@ import requests
 image_path = "apple.jpg"
 group_param = "fruit"  # fruit, vegetable, bakery
 
-url = "http://localhost:10003/api/v1/suggest/{name+}"
+url = "http://localhost:10003/api/v1/suggest/{group}"
 
 # Open image file, rb - read binary
 with open(image_path, "rb") as image_file:

@@ -7,17 +7,19 @@ predict_blueprint = Blueprint('predict_blueprint', __name__)
 ALLOWED_GROUP_PARAMS = ['fruit', 'vegetable', 'bakery']
 
 
-@predict_blueprint.route("/api/v1/suggest/{group+}", methods=['POST'])
+@predict_blueprint.route("/api/v1/suggest/{group}", methods=['POST'])
 def predict():
     """
      Predict assortment from the input image
      ---
+      tags:
+         - Object recognition
       parameters:
         - in: path
           name: group
           type: string
           required: true
-          description: "Name for which suggestions are requested"
+          description: "Group for which suggestions are requested."
         - in: formData
           name: image
           type: file
@@ -39,19 +41,25 @@ def predict():
                       properties:
                         label:
                           type: "string"
+                        plu:
+                          type: "string"
                         matchrate:
-                          type: "integer"
+                          type: "number"
                   best_suggestion:
                     type: "object"
                     properties:
                       label:
                         type: "string"
+                      plu:
+                        type: "string"
                       matchrate:
-                        type: "integer"
+                        type: "number"
                   duration:
                     type: "number"
                   suggestion_id:
                     type: "string"
+        404:
+          description: "Bad request - wrong group name or empty image"
       consumes:
         - "multipart/form-data"
      """
@@ -62,8 +70,11 @@ def predict():
         for header, value in request.headers.items():
             logging.info(f"Received header: {header}: {value}")
 
-        # if group_param not in ALLOWED_GROUP_PARAMS:
-        #    return make_response({"error": "Invalid group_param. Allowed values: 'fruit', 'vegetable', 'bakery'"}, 400)
+        request_data = request.get_json()
+
+        group_param = request_data["group"]
+        if group_param not in ALLOWED_GROUP_PARAMS:
+           return make_response({"error": "Invalid group_param. Allowed values: 'fruit', 'vegetable', 'bakery'"}, 404)
 
         predicted_data = {
             "items": [

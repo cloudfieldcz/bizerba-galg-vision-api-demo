@@ -6,14 +6,13 @@ from flask import Blueprint, make_response, request, jsonify
 transaction_blueprint = Blueprint('transaction_blueprint', __name__)
 
 
-
 @transaction_blueprint.route("/api/v1/transaction", methods=['POST'])
 def add_transaction():
     """
-       Process JSON data
+       Process transaction data
        ---
        tags:
-         - Data Processing
+         - Transaction
        parameters:
          - in: body
            name: json_data
@@ -33,7 +32,7 @@ def add_transaction():
                sold_assortment:
                  type: string
                duration:
-                 type: integer
+                 type: float
        responses:
          200:
            description: Data processed successfully
@@ -65,7 +64,7 @@ def add_transaction():
 
     except Exception as e:
         logging.error(f"Error in transaction_post: {str(e)}")
-        error_message = {"error": "An unexpected error occurred during transaction processing.  E:"+str(e)}
+        error_message = {"error": "An unexpected error occurred during transaction processing.  E:" + str(e)}
         return jsonify(error_message), 500
 
 
@@ -75,4 +74,3 @@ def validate_time_format(time_str):
         return True
     except ValueError:
         return False
-
