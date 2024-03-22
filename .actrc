@@ -1,0 +1,3 @@
+--eventpath .local/act/event.json
+--workflows .github/workflows/deploy.yml
+--secret-file .local/act/.secrets

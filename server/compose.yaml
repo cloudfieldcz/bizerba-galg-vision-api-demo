@@ -1,0 +1,20 @@
+services:
+
+  galg-vision-api-demo:
+    image: bizerbacz.azurecr.io/galg-vision-api-demo:latest
+    container_name: galg-vision-api-demo
+    restart: always
+    environment:
+      - HOST=localhost
+      - PORT=10003
+      - INSTALLATION_DIRECTORY=/data
+    ports:
+      - 10003:10003
+    networks:
+      - bizerba-galg-vision-api-demo
+    volumes:
+      - ./data:/data
+
+networks:
+  bizerba-galg-vision-api-demo:
+    name: bizerba-galg-vision-api-demo

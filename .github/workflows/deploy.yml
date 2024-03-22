@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  # env for container build
+  APP_NAME: 'galg-vision-api-demo'
+  CONTAINER_REGISTRY: 'bizerbacz'
+  DOCKERFILE_PATH: '.'
+  TAG: '${{ github.run_id }}'
+
+jobs:
+  CI-deploy-docker-image:
+    if: ${{ github.event.act }} # Run only locally, with act
+    name: Deploy Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to remote server via SSH and Docker Compose
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script_stop: true
+          script: |
+            # Bizerba Galg Vision API Demo directory
+            cd ~/bizerbagalgvisionapidemo/
+            # Pull new image
+            docker compose pull
+            # Restart container
+            docker compose up -d
+            # Remove unused images
+            docker image prune --force --filter="label=app=galg-vision-api-demo"
