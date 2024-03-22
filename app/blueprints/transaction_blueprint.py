@@ -6,32 +6,9 @@ from flask import Blueprint, make_response, request, jsonify
 transaction_blueprint = Blueprint('transaction_blueprint', __name__)
 
 
-@transaction_blueprint.route("/api/transaction_add", methods=['GET', 'POST'])
-def transaction_add():
-    """
-     Get user details by ID
-     ---
-     parameters:
-       - name: user_id
-         in: path
-         type: integer
-         required: true
-         description: User ID
-     responses:
-       200:
-         description: User details retrieved successfully
-     """
-    try:
-        logging.info("Handling method transaction_add")
-        message = {"state": "transaction data accepted"}
-        return make_response(message, 200)
 
-    except Exception as e:
-        logging.error(f"Unknown error when handling transaction_add function {e}")
-
-
-@transaction_blueprint.route("/api/transaction_post", methods=['GET', 'POST'])
-def transaction_post():
+@transaction_blueprint.route("/api/v1/transaction", methods=['POST'])
+def add_transaction():
     """
        Process JSON data
        ---

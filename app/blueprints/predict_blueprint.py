@@ -7,20 +7,53 @@ predict_blueprint = Blueprint('predict_blueprint', __name__)
 ALLOWED_GROUP_PARAMS = ['fruit', 'vegetable', 'bakery']
 
 
-@predict_blueprint.route("/api/predict", methods=['GET', 'POST'])
+@predict_blueprint.route("/api/v1/suggest/{name+}", methods=['POST'])
 def predict():
     """
-     Get user details by ID
+     Predict assortment from the input image
      ---
-     parameters:
-       - name: user_id
-         in: path
-         type: integer
-         required: true
-         description: User ID
-     responses:
-       200:
-         description: User details retrieved successfully
+      parameters:
+        - in: path
+          name: name
+          type: string
+          required: true
+          description: "Name for which suggestions are requested"
+        - in: formData
+          name: image
+          type: file
+          required: true
+          description: "Image file to process"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            properties:
+              predicted_data:
+                type: "object"
+                properties:
+                  items:
+                    type: "array"
+                    items:
+                      type: "object"
+                      properties:
+                        label:
+                          type: "string"
+                        matchrate:
+                          type: "integer"
+                  best_suggestion:
+                    type: "object"
+                    properties:
+                      label:
+                        type: "string"
+                      matchrate:
+                        type: "integer"
+                  duration:
+                    type: "number"
+                  suggestion_id:
+                    type: "string"
+      consumes:
+        - "multipart/form-data"
      """
 
     try:
@@ -45,7 +78,8 @@ def predict():
             ],
             "best_suggestion":
                 {"label": "onion", "matchRate": 37},
-            "duration": 0.15556540000034147
+            "duration": 0.15556540000034147,
+            "suggestion_id": "abc-1234"
         }
         return make_response(predicted_data, 200)
     except Exception as e:
