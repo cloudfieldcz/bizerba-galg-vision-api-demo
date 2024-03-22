@@ -7,14 +7,14 @@ predict_blueprint = Blueprint('predict_blueprint', __name__)
 ALLOWED_GROUP_PARAMS = ['fruit', 'vegetable', 'bakery']
 
 
-@predict_blueprint.route("/api/v1/suggest/{name+}", methods=['POST'])
+@predict_blueprint.route("/api/v1/suggest/{group+}", methods=['POST'])
 def predict():
     """
      Predict assortment from the input image
      ---
       parameters:
         - in: path
-          name: name
+          name: group
           type: string
           required: true
           description: "Name for which suggestions are requested"
