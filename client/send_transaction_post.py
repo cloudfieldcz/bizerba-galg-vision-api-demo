@@ -17,8 +17,8 @@ json_data = {
     "device_id": "abc123",
     "suggestion_id": "123456",
     "time": current_time,
-    "sold_assortment": "apple_jonaprice", # chodi PLU
-    "duration": 60
+    "sold_assortment": "101", # chodi PLU
+    "duration": 0.60
 }
 
 response = requests.post(url, json=json_data, headers=headers)

@@ -16,26 +16,34 @@ def add_transaction():
        parameters:
          - in: body
            name: json_data
-           description: JSON data to process
+           description: transaction data
            required: true
            schema:
              type: object
              properties:
                sell_id:
+                 description: "Unique ID for the sell, provided by Tangram"
                  type: string
                device_id:
+                 description: "Unique ID for the machine"
                  type: string
                suggestion_id:
+                 description: "Identication of previouse suggestion method invocation, to pair suggestion and sell data."
                  type: string
                time:
+                 description: "Time of transaction being"
                  type: datetime
                sold_assortment:
+                 description: "Final PLU selected by cashier"
                  type: string
                duration:
+                 description: "Total amount of time, in miliseconds, for whole process."
                  type: float
        responses:
          200:
            description: Data processed successfully
+         400:
+           description: Occurs when some required attribute is missing. All attributes are required.
        """
 
     try:

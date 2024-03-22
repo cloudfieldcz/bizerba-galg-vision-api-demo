@@ -4,7 +4,7 @@ import requests
 image_path = "apple.jpg"
 group_param = "fruit"  # fruit, vegetable, bakery
 
-url = "http://localhost:10003/api/v1/suggest/{group}"
+url = "http://localhost:10003/api/v1/suggest/buhehe"
 
 # Open image file, rb - read binary
 with open(image_path, "rb") as image_file:
@@ -12,7 +12,6 @@ with open(image_path, "rb") as image_file:
 
 payload = {
     "image": image_data,
-    "group": group_param
 }
 
 headers = {
