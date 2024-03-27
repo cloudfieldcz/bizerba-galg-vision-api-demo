@@ -1,7 +1,7 @@
 import logging
 import os
 
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, redirect, url_for
 from flasgger import Swagger
 
 from waitress import serve
@@ -17,7 +17,7 @@ def flask_app():
 
     @app.route("/")
     def client():
-        return send_from_directory('client/public', 'index.html')
+        return redirect("apidocs", code=302)
 
     app.register_blueprint(predict_blueprint)
     app.register_blueprint(transaction_blueprint)
